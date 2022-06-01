@@ -348,7 +348,7 @@ static const gamepad_state_t PROGMEM gamepad_0_idle_state = {
 	.id = GAMEPAD_0_REPORT_ID,
 	.buttonArray = {0},
 	.direction = 0x08,
-	.axis_0 = 0x0200, .axis_1 = 0x0200, .axis_2 = 0x0200, .axis_3 = 0x0200, .axis_4 = 0x0200, .axis_5 = 0x0200,
+	.axis = {0x0200, 0x0200, 0x0200, 0x0200, 0x0200, 0x0200},
 	.up_axis = 0x00, .right_axis = 0x00, .down_axis = 0x00, .left_axis = 0x00,
 	.circle_axis = 0x00, .cross_axis = 0x00, .square_axis = 0x00, .triangle_axis = 0x00,
 	.l1_axis = 0x00, .r1_axis = 0x00, .l2_axis = 0x00, .r2_axis = 0x00
@@ -358,7 +358,7 @@ static const gamepad_state_t PROGMEM gamepad_1_idle_state = {
 	.id = GAMEPAD_1_REPORT_ID,
 	.buttonArray = {0},
 	.direction = 0x08,
-	.axis_0 = 0x0200, .axis_1 = 0x0200, .axis_2 = 0x0200, .axis_3 = 0x0200, .axis_4 = 0x0200, .axis_5 = 0x0200,
+	.axis = {0x0200, 0x0200, 0x0200, 0x0200, 0x0200, 0x0200},
 	.up_axis = 0x00, .right_axis = 0x00, .down_axis = 0x00, .left_axis = 0x00,
 	.circle_axis = 0x00, .cross_axis = 0x00, .square_axis = 0x00, .triangle_axis = 0x00,
 	.l1_axis = 0x00, .r1_axis = 0x00, .l2_axis = 0x00, .r2_axis = 0x00
@@ -520,12 +520,12 @@ int8_t sendControllerDataViaUSB(dataForMegaController_t btnList, uint8_t playerI
 		btnList.analogAxisArray[5] = stickMax;
 
 	
-	usbControllerState.axis_0 = btnList.analogAxisArray[0];
-	usbControllerState.axis_1 = btnList.analogAxisArray[1];
-	usbControllerState.axis_2 = btnList.analogAxisArray[2];
-	usbControllerState.axis_3 = btnList.analogAxisArray[3];
-	usbControllerState.axis_4 = btnList.analogAxisArray[4];
-	usbControllerState.axis_5 = btnList.analogAxisArray[5];
+	usbControllerState.axis[0] = btnList.analogAxisArray[0];
+	usbControllerState.axis[1] = btnList.analogAxisArray[1];
+	usbControllerState.axis[2] = btnList.analogAxisArray[2];
+	usbControllerState.axis[3] = btnList.analogAxisArray[3];
+	usbControllerState.axis[4] = btnList.analogAxisArray[4];
+	usbControllerState.axis[5] = btnList.analogAxisArray[5];
 	
 	// Send the data out via USB
 	return usb_gamepad_send();
