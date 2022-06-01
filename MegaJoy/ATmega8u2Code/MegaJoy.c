@@ -58,20 +58,27 @@
 
 #define CPU_PRESCALE(n)	(CLKPR = 0x80, CLKPR = (n))
 
-// This sets up an empty controller data packet and sends it out
+// This sets up an empty controller data packet and sends it out -- Timo: No it doesn't! It does nothing at all
 //  to all the controllers attached.
 void setControllersToZero(void){
 	dataForMegaController_t emptyData;
-	for (int i = 0; i < BUTTON_ARRAY_LENGTH; i++)
-		emptyData.buttonArray[i] = 0;
-	emptyData.leftStickX = 512;
-	emptyData.leftStickY = 512;
-//	emptyData.rightStickX = 512;
-//	emptyData.rightStickY = 512;
-//	emptyData.stick3X = 512;
-//	emptyData.stick3Y = 512;
-	//sendControllerDataViaUSB(emptyData, 0);
-	//sendControllerDataViaUSB(emptyData, 1);
+	for (int i = 0; i < BUTTON_ARRAY_SIZE; i++)
+		emptyData.buttonArray[i] = 0x00;
+		
+    emptyData.dpad0LeftOn = 0;
+    emptyData.dpad0UpOn = 0;
+    emptyData.dpad0RightOn = 0;
+    emptyData.dpad0DownOn = 0;
+    
+    emptyData.dpad1LeftOn = 0;
+    emptyData.dpad1UpOn = 0;
+    emptyData.dpad1RightOn = 0;
+    emptyData.dpad1DownOn = 0;
+    
+    //Set the sticks to 512 - centered
+    for (int i = 0; i < ANALOG_AXIS_ARRAY_SIZE; i++){
+	    emptyData.analogAxisArray[i] = 512;
+    }
 }
 
 // Initializes the USART to receive and transmit,
@@ -114,7 +121,7 @@ void serialWrite( unsigned char data )
 
 void flushSerialRead()
 {
-	unsigned char dummy;
+	unsigned char dummy; // Timo: Used for reading a register. Reading this register resets it
 	while ( UCSR1A & (1<<RXC1) )
 		dummy = UDR1;
 }
@@ -190,62 +197,62 @@ int main(void) {
 		
 		int serialIndex = 0;
 		// The buttons are held in an array, so we need to break it between the two controllers
-		for (int i = 0; i < BUTTON_ARRAY_LENGTH; i++){
+		for (int i = 0; i < BUTTON_ARRAY_SIZE; i++){
 			serialWrite(serialIndex);
 			serialIndex++;
 			controllerData1.buttonArray[i] = serialRead(25);	
 		}
 		
-		for (int i = 0; i < BUTTON_ARRAY_LENGTH; i++){
-			serialWrite(serialIndex);
-			serialIndex++;
-			controllerData2.buttonArray[i] = serialRead(25);
-		}
+		//for (int i = 0; i < BUTTON_ARRAY_SIZE; i++){
+			//serialWrite(serialIndex);
+			//serialIndex++;
+			//controllerData2.buttonArray[i] = serialRead(25);
+		//}
 		
 		serialWrite(serialIndex);
 		serialIndex++;
 		uint8_t directionButtons = serialRead(25);
-		controllerData1.dpadLeftOn = 1 & (directionButtons >> 0);
-		controllerData1.dpadUpOn = 1 & (directionButtons >> 1);
-		controllerData1.dpadRightOn = 1 & (directionButtons >> 2);
-		controllerData1.dpadDownOn = 1 & (directionButtons >> 3);
+		controllerData1.dpad0LeftOn = 1 & (directionButtons >> 0);
+		controllerData1.dpad0UpOn = 1 & (directionButtons >> 1);
+		controllerData1.dpad0RightOn = 1 & (directionButtons >> 2);
+		controllerData1.dpad0DownOn = 1 & (directionButtons >> 3);
 		
-		controllerData2.dpadLeftOn = 1 & (directionButtons >> 4);
-		controllerData2.dpadUpOn = 1 & (directionButtons >> 5);
-		controllerData2.dpadRightOn = 1 & (directionButtons >> 6);
-		controllerData2.dpadDownOn = 1 & (directionButtons >> 7);
+		controllerData2.dpad1LeftOn = 1 & (directionButtons >> 4);
+		controllerData2.dpad1UpOn = 1 & (directionButtons >> 5);
+		controllerData2.dpad1RightOn = 1 & (directionButtons >> 6);
+		controllerData2.dpad1DownOn = 1 & (directionButtons >> 7);
 		
 		// Assuming that 16 bit data gets sent high byte first
-		controllerData1.leftStickX = get16bitValue(serialIndex);
+		controllerData1.analogAxisArray[0] = get16bitValue(serialIndex);
 		serialIndex += 2;
-		controllerData1.leftStickY = get16bitValue(serialIndex);
+		controllerData1.analogAxisArray[1] = get16bitValue(serialIndex);
 		serialIndex += 2;
-		controllerData1.rightStickX = get16bitValue(serialIndex);
+		controllerData1.analogAxisArray[2] = get16bitValue(serialIndex);
 		serialIndex += 2;
-		controllerData1.rightStickY = get16bitValue(serialIndex);
+		controllerData1.analogAxisArray[3] = get16bitValue(serialIndex);
 		serialIndex += 2;
-		controllerData1.stick3X = get16bitValue(serialIndex);
+		controllerData1.analogAxisArray[4] = get16bitValue(serialIndex);
 		serialIndex += 2;
-		controllerData1.stick3Y = get16bitValue(serialIndex);
+		controllerData1.analogAxisArray[5] = get16bitValue(serialIndex);
 		serialIndex += 2;
 		
-		controllerData2.leftStickX = get16bitValue(serialIndex);
-		serialIndex += 2;
-		controllerData2.leftStickY = get16bitValue(serialIndex);
-		serialIndex += 2;
-		controllerData2.rightStickX = get16bitValue(serialIndex);
-		serialIndex += 2;
-		controllerData2.rightStickY = get16bitValue(serialIndex);
-		serialIndex += 2;
-		controllerData2.stick3X = get16bitValue(serialIndex);
-		serialIndex += 2;
-		controllerData2.stick3Y = get16bitValue(serialIndex);
+		//controllerData2.leftStickX = get16bitValue(serialIndex);
+		//serialIndex += 2;
+		//controllerData2.leftStickY = get16bitValue(serialIndex);
+		//serialIndex += 2;
+		//controllerData2.rightStickX = get16bitValue(serialIndex);
+		//serialIndex += 2;
+		//controllerData2.rightStickY = get16bitValue(serialIndex);
+		//serialIndex += 2;
+		//controllerData2.stick3X = get16bitValue(serialIndex);
+		//serialIndex += 2;
+		//controllerData2.stick3Y = get16bitValue(serialIndex);
 		
 		// Communication with the Arduino chip is over here
 		LEDoff(TXLED);	
         // Finally, we send the data out via the USB port
 		sendControllerDataViaUSB(controllerData1, 1);	
-		_delay_ms(10);
-		sendControllerDataViaUSB(controllerData2, 2);
+		//_delay_ms(10);
+		//sendControllerDataViaUSB(controllerData2, 2);
 	}
 }

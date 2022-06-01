@@ -55,8 +55,8 @@
     //  then use the setControllerData function to send that data out.
     //  Don't change this - the order of the fields is important for
     //  the communication between the Arduino and it's communications chip.
-#define BUTTON_ARRAY_SIZE 8
-#define ANALOG_AXIS_ARRAY_SIZE 12
+#define BUTTON_ARRAY_SIZE 1 // 8
+#define ANALOG_AXIS_ARRAY_SIZE 6 // 12
     
 	typedef struct megaJoyControllerData_t
 	{
@@ -187,7 +187,7 @@
         byte inByte = Serial.read();
         // That number tells us which byte of the megaJoyControllerData_t struct
         //  to send out.
-        Serial.write(((uint8_t*)&controllerDataBuffer)[inByte]);
+        Serial.write(((uint8_t*)&controllerDataBuffer)[inByte]); // for 14 bytes do not read more than from index 14
         //digitalWrite(13, LOW);
       }
     }
@@ -198,10 +198,12 @@
   megaJoyControllerData_t getBlankDataForMegaController(void){
     // Create a megaJoyControllerData_t
     megaJoyControllerData_t controllerData;
+    
     // Make the buttons zero
-    for (int i = 0; i < 8; i++){
-      controllerData.buttonArray[i] = 0;
+    for (int i = 0; i < BUTTON_ARRAY_SIZE; i++){
+      controllerData.buttonArray[i] = 0x00; // Resets all buttons in this byte to off
     }
+    
     controllerData.dpad0LeftOn = 0;
     controllerData.dpad0UpOn = 0;
     controllerData.dpad0RightOn = 0;

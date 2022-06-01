@@ -138,10 +138,10 @@ static const uint8_t PROGMEM gamepad_hid_report_desc[] = {
 	0x35, 0x00,        //   PHYSICAL_MINIMUM (0)
 	0x45, 0x01,        //   PHYSICAL_MAXIMUM (1)
 	0x75, 0x01,        //   REPORT_SIZE (1)
-	0x95, 8 * BUTTON_ARRAY_LENGTH,        //   REPORT_COUNT (32)
+	0x95, 8 * BUTTON_ARRAY_SIZE,        //   REPORT_COUNT (32)
 	0x05, 0x09,        //   USAGE_PAGE (Button)
 	0x19, 0x01,        //   USAGE_MINIMUM (Button 1)
-	0x29, 8 * BUTTON_ARRAY_LENGTH,        //   USAGE_MAXIMUM (Button 32)
+	0x29, 8 * BUTTON_ARRAY_SIZE,        //   USAGE_MAXIMUM (Button 32)
 	0x81, 0x02,        //   INPUT (Data,Var,Abs)
 	0x05, 0x01,        //   USAGE_PAGE (Generic Desktop)
 	0x25, 0x07,        //   LOGICAL_MAXIMUM (7)
@@ -188,65 +188,65 @@ static const uint8_t PROGMEM gamepad_hid_report_desc[] = {
 	0xb1, 0x02,        //   FEATURE (Data,Var,Abs)
 	0xc0,              // END_COLLECTION
 	
-	//MegaJoy descriptor 2
-	0x05, 0x01,        // USAGE_PAGE (Generic Desktop)
-	0x09, 0x05,        // USAGE (Gamepad)
-	0xa1, 0x01,        // COLLECTION (Application)
-	0x85, GAMEPAD_1_REPORT_ID,   //  REPORT ID (Gamepad 0)
-	0x15, 0x00,        //   LOGICAL_MINIMUM (0)
-	0x25, 0x01,        //   LOGICAL_MAXIMUM (1)
-	0x35, 0x00,        //   PHYSICAL_MINIMUM (0)
-	0x45, 0x01,        //   PHYSICAL_MAXIMUM (1)
-	0x75, 0x01,        //   REPORT_SIZE (1)
-	0x95, 8 * BUTTON_ARRAY_LENGTH,        //   REPORT_COUNT (144)
-	0x05, 0x09,        //   USAGE_PAGE (Button)
-	0x19, 0x01,        //   USAGE_MINIMUM (Button 1)
-	0x29, 8 * BUTTON_ARRAY_LENGTH,        //   USAGE_MAXIMUM (Button 144)
-	0x81, 0x02,        //   INPUT (Data,Var,Abs)
-	0x05, 0x01,        //   USAGE_PAGE (Generic Desktop)
-	0x25, 0x07,        //   LOGICAL_MAXIMUM (7)
-	0x46, 0x3b, 0x01,  //   PHYSICAL_MAXIMUM (315)
-	0x75, 0x04,        //   REPORT_SIZE (4)
-	0x95, 0x01,        //   REPORT_COUNT (1)
-	0x65, 0x14,        //   UNIT (Eng Rot:Angular Pos)
-	0x09, 0x39,        //   USAGE (Hat switch)
-	0x81, 0x42,        //   INPUT (Data,Var,Abs,Null)
-	0x65, 0x00,        //   UNIT (None)
-	0x95, 0x01,        //   REPORT_COUNT (1)
-	0x81, 0x01,        //   INPUT (Cnst,Ary,Abs)
-	0x16, 0x00, 0x00,  //   LOGICAL_MINIMUM 0
-	0x26, 0xff, 0x03,  //   LOGICAL_MAXIMUM (1024)
-	0x36, 0x00, 0x00,  //   PHYSICAL_MINIMUM (0)
-	0x46, 0xff, 0x03,  //   PHYSICAL_MAXIMUM (1024)
-	0x09, 0x30,        //   USAGE (X)
-	0x09, 0x31,        //   USAGE (Y)
-	0x09, 0x32,        //   USAGE (Z)
-	0x09, 0x33,		   //   USAGE (Rx)
-	0x09, 0x34,		   //   USAGE (Ry)
-	0x09, 0x35,        //   USAGE (Rz)
-	0x75, 0x10,        //   REPORT_SIZE (16)
-	0x95, 0x06,        //   REPORT_COUNT (6)
-	0x81, 0x02,        //   INPUT (Data,Var,Abs)
-	0x06, 0x00, 0xff,  //   USAGE_PAGE (Vendor Specific)
-	0x09, 0x20,        //   Unknown
-	0x09, 0x21,        //   Unknown
-	0x09, 0x22,        //   Unknown
-	0x09, 0x23,        //   Unknown
-	0x09, 0x24,        //   Unknown
-	0x09, 0x25,        //   Unknown
-	0x09, 0x26,        //   Unknown
-	0x09, 0x27,        //   Unknown
-	0x09, 0x28,        //   Unknown
-	0x09, 0x29,        //   Unknown
-	0x09, 0x2a,        //   Unknown
-	0x09, 0x2b,        //   Unknown
-	0x75, 0x08,        //   REPORT_SIZE (8) NEW
-	0x95, 0x0c,        //   REPORT_COUNT (12)
-	0x81, 0x02,        //   INPUT (Data,Var,Abs)
-	0x0a, 0x21, 0x26,  //   Unknown
-	0x95, 0x08,        //   REPORT_COUNT (8)
-	0xb1, 0x02,        //   FEATURE (Data,Var,Abs)
-	0xc0,              // END_COLLECTION
+	////MegaJoy descriptor 2
+	//0x05, 0x01,        // USAGE_PAGE (Generic Desktop)
+	//0x09, 0x05,        // USAGE (Gamepad)
+	//0xa1, 0x01,        // COLLECTION (Application)
+	//0x85, GAMEPAD_1_REPORT_ID,   //  REPORT ID (Gamepad 0)
+	//0x15, 0x00,        //   LOGICAL_MINIMUM (0)
+	//0x25, 0x01,        //   LOGICAL_MAXIMUM (1)
+	//0x35, 0x00,        //   PHYSICAL_MINIMUM (0)
+	//0x45, 0x01,        //   PHYSICAL_MAXIMUM (1)
+	//0x75, 0x01,        //   REPORT_SIZE (1)
+	//0x95, 8 * BUTTON_ARRAY_SIZE,        //   REPORT_COUNT (144)
+	//0x05, 0x09,        //   USAGE_PAGE (Button)
+	//0x19, 0x01,        //   USAGE_MINIMUM (Button 1)
+	//0x29, 8 * BUTTON_ARRAY_SIZE,        //   USAGE_MAXIMUM (Button 144)
+	//0x81, 0x02,        //   INPUT (Data,Var,Abs)
+	//0x05, 0x01,        //   USAGE_PAGE (Generic Desktop)
+	//0x25, 0x07,        //   LOGICAL_MAXIMUM (7)
+	//0x46, 0x3b, 0x01,  //   PHYSICAL_MAXIMUM (315)
+	//0x75, 0x04,        //   REPORT_SIZE (4)
+	//0x95, 0x01,        //   REPORT_COUNT (1)
+	//0x65, 0x14,        //   UNIT (Eng Rot:Angular Pos)
+	//0x09, 0x39,        //   USAGE (Hat switch)
+	//0x81, 0x42,        //   INPUT (Data,Var,Abs,Null)
+	//0x65, 0x00,        //   UNIT (None)
+	//0x95, 0x01,        //   REPORT_COUNT (1)
+	//0x81, 0x01,        //   INPUT (Cnst,Ary,Abs)
+	//0x16, 0x00, 0x00,  //   LOGICAL_MINIMUM 0
+	//0x26, 0xff, 0x03,  //   LOGICAL_MAXIMUM (1024)
+	//0x36, 0x00, 0x00,  //   PHYSICAL_MINIMUM (0)
+	//0x46, 0xff, 0x03,  //   PHYSICAL_MAXIMUM (1024)
+	//0x09, 0x30,        //   USAGE (X)
+	//0x09, 0x31,        //   USAGE (Y)
+	//0x09, 0x32,        //   USAGE (Z)
+	//0x09, 0x33,		   //   USAGE (Rx)
+	//0x09, 0x34,		   //   USAGE (Ry)
+	//0x09, 0x35,        //   USAGE (Rz)
+	//0x75, 0x10,        //   REPORT_SIZE (16)
+	//0x95, 0x06,        //   REPORT_COUNT (6)
+	//0x81, 0x02,        //   INPUT (Data,Var,Abs)
+	//0x06, 0x00, 0xff,  //   USAGE_PAGE (Vendor Specific)
+	//0x09, 0x20,        //   Unknown
+	//0x09, 0x21,        //   Unknown
+	//0x09, 0x22,        //   Unknown
+	//0x09, 0x23,        //   Unknown
+	//0x09, 0x24,        //   Unknown
+	//0x09, 0x25,        //   Unknown
+	//0x09, 0x26,        //   Unknown
+	//0x09, 0x27,        //   Unknown
+	//0x09, 0x28,        //   Unknown
+	//0x09, 0x29,        //   Unknown
+	//0x09, 0x2a,        //   Unknown
+	//0x09, 0x2b,        //   Unknown
+	//0x75, 0x08,        //   REPORT_SIZE (8) NEW
+	//0x95, 0x0c,        //   REPORT_COUNT (12)
+	//0x81, 0x02,        //   INPUT (Data,Var,Abs)
+	//0x0a, 0x21, 0x26,  //   Unknown
+	//0x95, 0x08,        //   REPORT_COUNT (8)
+	//0xb1, 0x02,        //   FEATURE (Data,Var,Abs)
+	//0xc0,              // END_COLLECTION
 
 };
 
@@ -346,24 +346,22 @@ static volatile uint8_t usb_configuration = 0;
 
 static const gamepad_state_t PROGMEM gamepad_0_idle_state = {
 	.id = GAMEPAD_0_REPORT_ID,
-	.buttonArray = {0,0,0,0},
+	.buttonArray = {0},
 	.direction = 0x08,
-	.l_x_axis = 0x80, .l_y_axis = 0x80, .r_x_axis = 0x80, .r_y_axis = 0x80,
+	.axis_0 = 0x0200, .axis_1 = 0x0200, .axis_2 = 0x0200, .axis_3 = 0x0200, .axis_4 = 0x0200, .axis_5 = 0x0200,
 	.up_axis = 0x00, .right_axis = 0x00, .down_axis = 0x00, .left_axis = 0x00,
 	.circle_axis = 0x00, .cross_axis = 0x00, .square_axis = 0x00, .triangle_axis = 0x00,
-	.l1_axis = 0x00, .r1_axis = 0x00, .l2_axis = 0x00, .r2_axis = 0x00,
-	.x_3_axis = 0x00, .y_3_axis = 0x00
+	.l1_axis = 0x00, .r1_axis = 0x00, .l2_axis = 0x00, .r2_axis = 0x00
 };
 
 static const gamepad_state_t PROGMEM gamepad_1_idle_state = {
 	.id = GAMEPAD_1_REPORT_ID,
-	.buttonArray = {0,0,0,0},
+	.buttonArray = {0},
 	.direction = 0x08,
-	.l_x_axis = 0x80, .l_y_axis = 0x80, .r_x_axis = 0x80, .r_y_axis = 0x80,
+	.axis_0 = 0x0200, .axis_1 = 0x0200, .axis_2 = 0x0200, .axis_3 = 0x0200, .axis_4 = 0x0200, .axis_5 = 0x0200,
 	.up_axis = 0x00, .right_axis = 0x00, .down_axis = 0x00, .left_axis = 0x00,
 	.circle_axis = 0x00, .cross_axis = 0x00, .square_axis = 0x00, .triangle_axis = 0x00,
-	.l1_axis = 0x00, .r1_axis = 0x00, .l2_axis = 0x00, .r2_axis = 0x00,
-	.x_3_axis = 0x00, .y_3_axis = 0x00
+	.l1_axis = 0x00, .r1_axis = 0x00, .l2_axis = 0x00, .r2_axis = 0x00
 };
 
 /*
@@ -434,116 +432,57 @@ inline void usb_gamepad_1_reset_state(void) {
 int8_t sendControllerDataViaUSB(dataForMegaController_t btnList, uint8_t playerID){
 	usbControllerState.id = playerID;
 	
-	memcpy(usbControllerState.buttonArray, btnList.buttonArray, BUTTON_ARRAY_LENGTH);
-/*	usbControllerState.triangle_btn = btnList.triangleOn;//Button 4
-	usbControllerState.square_btn = btnList.squareOn;	
-	usbControllerState.cross_btn = btnList.crossOn;
-	usbControllerState.circle_btn = btnList.circleOn;
-
-	usbControllerState.l1_btn = btnList.l1On;
-	usbControllerState.r1_btn = btnList.r1On;
-	usbControllerState.l2_btn = btnList.l2On;
-	usbControllerState.r2_btn = btnList.r2On;
-		
-	
-	if (usbControllerState.triangle_btn == 1)
-		usbControllerState.triangle_axis = 0xFF;
-	else
-		usbControllerState.triangle_axis = 0;
-		
-	if (usbControllerState.square_btn == 1)
-		usbControllerState.square_axis = 0xFF;
-	else
-		usbControllerState.square_axis = 0;
-
-	if (usbControllerState.cross_btn == 1)
-		usbControllerState.cross_axis = 0xFF;
-	else
-		usbControllerState.cross_axis = 0;
-
-	if (usbControllerState.circle_btn == 1)
-		usbControllerState.circle_axis = 0xFF;
-	else
-		usbControllerState.circle_axis = 0;
-
-	if (usbControllerState.l1_btn == 1)
-		usbControllerState.l1_axis = 0xFF;
-	else
-		usbControllerState.l1_axis = 0;
-		
-	if (usbControllerState.l2_btn == 1)
-		usbControllerState.l2_axis = 0xFF;
-	else
-		usbControllerState.l2_axis = 0;
-		
-	if (usbControllerState.r1_btn == 1)
-		usbControllerState.r1_axis = 0xFF;
-	else
-		usbControllerState.r1_axis = 0;
-			
-	if (usbControllerState.r2_btn == 1)
-		usbControllerState.r2_axis = 0xFF;
-	else
-		usbControllerState.r2_axis = 0;
-		
-	usbControllerState.select_btn = btnList.selectOn;
-	usbControllerState.start_btn = btnList.startOn;
-	usbControllerState.l3_btn = btnList.l3On;
-	usbControllerState.r3_btn = btnList.r3On;
-	
-	//gamepad_state.r2_btn_alt = btnList.r2On;
-	//gamepad_state.l2_btn_alt = btnList.l2On;
-	usbControllerState.ps_btn = btnList.homeOn;
-*/ // End of the buttons
+	// Timo: All buttons are organized in complete bytes. Copy the entire thing
+	memcpy(usbControllerState.buttonArray, btnList.buttonArray, BUTTON_ARRAY_SIZE);
 
 	// digital direction, use the dir_* constants(enum)
 	// 8 = center, 0 = up, 1 = up/right, 2 = right, 3 = right/down
 	// 4 = down, 5 = down/left, 6 = left, 7 = left/up
 
 	usbControllerState.direction = 8;
-	if (btnList.dpadUpOn == 1){
-		if (btnList.dpadLeftOn == 1){
+	if (btnList.dpad0UpOn == 1){
+		if (btnList.dpad0LeftOn == 1){
 			usbControllerState.direction = 7;
 		} 
-		else if (btnList.dpadRightOn == 1){
+		else if (btnList.dpad0RightOn == 1){
 			usbControllerState.direction = 1;
 		}
 		else
 			usbControllerState.direction = 0;
 		
 	}
-	else if (btnList.dpadDownOn == 1){
-				if (btnList.dpadLeftOn == 1){
+	else if (btnList.dpad0DownOn == 1){
+				if (btnList.dpad0LeftOn == 1){
 			usbControllerState.direction = 5;
 		} 
-		else if (btnList.dpadRightOn == 1){
+		else if (btnList.dpad0RightOn == 1){
 			usbControllerState.direction = 3;
 		}
 		else
 			usbControllerState.direction = 4;		
 	}
-	else if (btnList.dpadLeftOn == 1){
+	else if (btnList.dpad0LeftOn == 1){
 		usbControllerState.direction = 6;
 	}
-	else if (btnList.dpadRightOn == 1){
+	else if (btnList.dpad0RightOn == 1){
 		usbControllerState.direction = 2;
 	}
 	
 	// Take care of the d-pad analog pressures separately,
 	//  since the 'convert to hat switch' code is confusing
-	if (btnList.dpadUpOn == 1)
+	if (btnList.dpad0UpOn == 1)
 		usbControllerState.up_axis = 0xFF;	
 	else
 		usbControllerState.up_axis = 0;
-	if (btnList.dpadRightOn == 1)
+	if (btnList.dpad0RightOn == 1)
 		usbControllerState.right_axis = 0xFF;
 	else
 		usbControllerState.right_axis = 0;
-	if (btnList.dpadDownOn == 1)
+	if (btnList.dpad0DownOn == 1)
 		usbControllerState.down_axis = 0xFF;
 	else
 		usbControllerState.down_axis = 0;
-	if (btnList.dpadLeftOn == 1)
+	if (btnList.dpad0LeftOn == 1)
 		usbControllerState.left_axis = 0xFF;
 	else
 		usbControllerState.left_axis = 0;
@@ -553,40 +492,40 @@ int8_t sendControllerDataViaUSB(dataForMegaController_t btnList, uint8_t playerI
 	// Sanity check the inputs so we don't try and go out of bounds
 	int16_t stickMin = 0;
 	int16_t stickMax = 1023;
-	if (btnList.leftStickX < stickMin)
-		btnList.leftStickX = stickMin;
-	if (btnList.leftStickX > stickMax)
-		btnList.leftStickX = stickMax;
-	if (btnList.leftStickY < stickMin)
-		btnList.leftStickY = stickMin;
-	if (btnList.leftStickY > stickMax)
-		btnList.leftStickY = stickMax;
+	if (btnList.analogAxisArray[0] < stickMin)
+		btnList.analogAxisArray[0] = stickMin;
+	if (btnList.analogAxisArray[0] > stickMax)
+		btnList.analogAxisArray[0] = stickMax;
+	if (btnList.analogAxisArray[1] < stickMin)
+		btnList.analogAxisArray[1] = stickMin;
+	if (btnList.analogAxisArray[1] > stickMax)
+		btnList.analogAxisArray[1] = stickMax;
 
-	if (btnList.rightStickX < stickMin)
-		btnList.rightStickX = stickMin;
-	if (btnList.rightStickX > stickMax)
-		btnList.rightStickX = stickMax;
-	if (btnList.rightStickY < stickMin)
-		btnList.rightStickY = stickMin;
-	if (btnList.rightStickY > stickMax)
-		btnList.rightStickY = stickMax;
+	if (btnList.analogAxisArray[2] < stickMin)
+		btnList.analogAxisArray[2] = stickMin;
+	if (btnList.analogAxisArray[2] > stickMax)
+		btnList.analogAxisArray[2] = stickMax;
+	if (btnList.analogAxisArray[3] < stickMin)
+		btnList.analogAxisArray[3] = stickMin;
+	if (btnList.analogAxisArray[3] > stickMax)
+		btnList.analogAxisArray[3] = stickMax;
 
-	if (btnList.stick3X < stickMin)
-		btnList.stick3X = stickMin;
-	if (btnList.stick3X > stickMax)
-		btnList.stick3X = stickMax;
-	if (btnList.stick3Y < stickMin)
-		btnList.stick3Y = stickMin;
-	if (btnList.stick3Y > stickMax)
-		btnList.stick3Y = stickMax;
+	if (btnList.analogAxisArray[4] < stickMin)
+		btnList.analogAxisArray[4] = stickMin;
+	if (btnList.analogAxisArray[4] > stickMax)
+		btnList.analogAxisArray[4] = stickMax;
+	if (btnList.analogAxisArray[5] < stickMin)
+		btnList.analogAxisArray[5] = stickMin;
+	if (btnList.analogAxisArray[5] > stickMax)
+		btnList.analogAxisArray[5] = stickMax;
 
 	
-	usbControllerState.l_x_axis = btnList.leftStickX;
-	usbControllerState.l_y_axis = btnList.leftStickY;
-	usbControllerState.r_x_axis = btnList.rightStickX;
-	usbControllerState.r_y_axis = btnList.rightStickY;
-	usbControllerState.x_3_axis = btnList.stick3X;
-	usbControllerState.y_3_axis = btnList.stick3Y;
+	usbControllerState.axis_0 = btnList.analogAxisArray[0];
+	usbControllerState.axis_1 = btnList.analogAxisArray[1];
+	usbControllerState.axis_2 = btnList.analogAxisArray[2];
+	usbControllerState.axis_3 = btnList.analogAxisArray[3];
+	usbControllerState.axis_4 = btnList.analogAxisArray[4];
+	usbControllerState.axis_5 = btnList.analogAxisArray[5];
 	
 	// Send the data out via USB
 	return usb_gamepad_send();

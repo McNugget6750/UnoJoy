@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <util/delay.h>
 #include "dataForMegaController_t.h"
+
 // Timeout in ms for the USB communication to start during initialization
 #define USB_TIMEOUT 1000
 
@@ -15,28 +16,10 @@ uint8_t usb_configured(void);		// is the USB port configured
 
 typedef struct {
 	uint8_t id;
+	
 	// digital buttons, 0 = off, 1 = on
-	uint8_t buttonArray[BUTTON_ARRAY_LENGTH];
-/*
-	uint8_t square_btn : 1;
-	uint8_t cross_btn : 1;
-	uint8_t circle_btn : 1;
-	uint8_t triangle_btn : 1;
-
-	uint8_t l1_btn : 1;
-	uint8_t r1_btn : 1;
-	uint8_t l2_btn : 1;
-	uint8_t r2_btn : 1;
-
-	uint8_t select_btn : 1;
-	uint8_t start_btn : 1;
-	uint8_t l3_btn : 1;
-	uint8_t r3_btn : 1;
+	uint8_t buttonArray[BUTTON_ARRAY_SIZE];
 	
-	uint8_t ps_btn : 1;
-	
-	uint8_t : 2;
-*/
 	// digital direction, use the dir_* constants(enum)
 	// 8 = center, 0 = up, 1 = up/right, 2 = right, 3 = right/down
 	// 4 = down, 5 = down/left, 6 = left, 7 = left/up
@@ -45,12 +28,12 @@ typedef struct {
 
 	// left and right analog sticks, 0x00 left/up, 0x80 middle, 0xff right/down
 
-	int16_t l_x_axis;
-	int16_t l_y_axis;
-	int16_t r_x_axis;
-	int16_t r_y_axis;
-	int16_t x_3_axis;
-	int16_t y_3_axis;
+	int16_t axis_0;
+	int16_t axis_1;
+	int16_t axis_2;
+	int16_t axis_3;
+	int16_t axis_4;
+	int16_t axis_5;
 
 	// Gonna assume these are button analog values for the d-pad.
 	// NOTE: NOT EVEN SURE THIS IS RIGHT, OR IN THE CORRECT ORDER

@@ -1,3 +1,7 @@
+/*
+* Modified version by Timo Birnschein (timo.birnschein@googlemail.com) 2022/06/01 
+* I need less buttons and less axis but at least 10 bit axis resolution. 16 bit would be better.
+*/
 
 #include "MegaJoy.h"
 
@@ -16,7 +20,8 @@ void setupPins(void){
   // Set all the digital pins as inputs
   // with the pull-up enabled, except for the 
   // two serial line pins
-  for (int i = 2; i <= 54; i++){
+//  for (int i = 2; i < 54; i++){
+  for (int i = 2; i < ((BUTTON_ARRAY_SIZE*8) + 2); i++){
     pinMode(i, INPUT);
     digitalWrite(i, HIGH);
   }
@@ -33,7 +38,8 @@ megaJoyControllerData_t getControllerData(void){
   // Since our buttons are all held high and
   //  pulled low when pressed, we use the "!"
   //  operator to invert the readings from the pins
-  for (int i = 2; i < 54; i++){
+//  for (int i = 2; i < 54; i++){
+  for (int i = 2; i < ((BUTTON_ARRAY_SIZE*8) + 2); i++){
     controllerData.buttonArray[(i - 2) / 8] |= (!digitalRead(i)) << ((i - 2) % 8);
   }
   
@@ -48,12 +54,12 @@ megaJoyControllerData_t getControllerData(void){
   controllerData.analogAxisArray[3] = analogRead(A3); 
   controllerData.analogAxisArray[4] = analogRead(A4); 
   controllerData.analogAxisArray[5] = analogRead(A5); 
-  controllerData.analogAxisArray[6] = analogRead(A6); 
-  controllerData.analogAxisArray[7] = analogRead(A7); 
-  controllerData.analogAxisArray[8] = analogRead(A8); 
-  controllerData.analogAxisArray[9] = analogRead(A9); 
-  controllerData.analogAxisArray[10] = analogRead(A10); 
-  controllerData.analogAxisArray[11] = analogRead(A11); 
+//  controllerData.analogAxisArray[6] = analogRead(A6); 
+//  controllerData.analogAxisArray[7] = analogRead(A7); 
+//  controllerData.analogAxisArray[8] = analogRead(A8); // Reduce number of analog axis to just 6 - we only need six
+//  controllerData.analogAxisArray[9] = analogRead(A9); 
+//  controllerData.analogAxisArray[10] = analogRead(A10); 
+//  controllerData.analogAxisArray[11] = analogRead(A11); 
   
   // And return the data!
   return controllerData;

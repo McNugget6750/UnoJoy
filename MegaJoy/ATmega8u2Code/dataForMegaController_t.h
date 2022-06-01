@@ -13,43 +13,25 @@
 #ifndef DATA_FOR_CONTROLLER_T
 #define DATA_FOR_CONTROLLER_T
 
-#define BUTTON_ARRAY_LENGTH 4
+#define BUTTON_ARRAY_SIZE 1 // 4
+#define ANALOG_AXIS_ARRAY_SIZE 6 // 12
 
-	typedef struct dataForMegaController_t
-	{
-		// We'll support 144 buttons
-		//  DirectInput supports up to 150, but this is a nice round number?
-		uint8_t buttonArray[BUTTON_ARRAY_LENGTH];
-		//Playstation 3 buttons are in the following order:
-	/*	uint8_t triangleOn : 1;  // variables to abstractly tell us which buttons are pressed		
-		uint8_t circleOn : 1;
-		uint8_t squareOn : 1;
-		uint8_t crossOn : 1;
-		uint8_t l1On : 1;
-		uint8_t l2On : 1;
-		uint8_t l3On : 1;
-		uint8_t r1On : 1;
-		
-		uint8_t r2On : 1;
-		uint8_t r3On : 1;
-		uint8_t selectOn : 1;
-		uint8_t startOn : 1;
-		uint8_t homeOn : 1;
-		*/
-		uint8_t dpadLeftOn : 1;
-		uint8_t dpadUpOn : 1;
-		uint8_t dpadRightOn : 1;		
-		uint8_t dpadDownOn : 1;
-		uint8_t : 4; // Padding, just to make our current system work nicely
-
-		
-		int16_t leftStickX; 
-		int16_t leftStickY;
-		int16_t rightStickX;
-		int16_t rightStickY;
-		int16_t stick3X;
-		int16_t stick3Y;
-	} dataForMegaController_t;
+typedef struct dataForMegaController_t
+{
+	uint8_t buttonArray[BUTTON_ARRAY_SIZE];
+	
+	uint8_t dpad0LeftOn : 1;
+	uint8_t dpad0UpOn : 1;
+	uint8_t dpad0RightOn : 1;
+	uint8_t dpad0DownOn : 1;
+	
+	uint8_t dpad1LeftOn : 1;
+	uint8_t dpad1UpOn : 1;
+	uint8_t dpad1RightOn : 1;
+	uint8_t dpad1DownOn : 1;
+	
+	int16_t analogAxisArray[ANALOG_AXIS_ARRAY_SIZE];
+} dataForMegaController_t;
 
 
 #endif
