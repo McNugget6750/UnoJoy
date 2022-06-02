@@ -50,16 +50,18 @@ megaJoyControllerData_t getControllerData(void){
   //  8 bit number that we can use 
   controllerData.analogAxisArray[0] = analogRead(A0);
   controllerData.analogAxisArray[1] = analogRead(A1);
-  controllerData.analogAxisArray[2] = analogRead(A2); 
-  controllerData.analogAxisArray[3] = analogRead(A3); 
-  controllerData.analogAxisArray[4] = analogRead(A4); 
-  controllerData.analogAxisArray[5] = analogRead(A5); 
-//  controllerData.analogAxisArray[6] = analogRead(A6); 
-//  controllerData.analogAxisArray[7] = analogRead(A7); 
-//  controllerData.analogAxisArray[8] = analogRead(A8); // Reduce number of analog axis to just 6 - we only need six
-//  controllerData.analogAxisArray[9] = analogRead(A9); 
-//  controllerData.analogAxisArray[10] = analogRead(A10); 
-//  controllerData.analogAxisArray[11] = analogRead(A11); 
+  controllerData.analogAxisArray[2] = analogRead(A2);
+  controllerData.analogAxisArray[3] = analogRead(A3);
+  controllerData.analogAxisArray[4] = (uint16_t)((1023.0f / 190.0f) * ((float)analogRead(A4) - 68.0f)); // 68 - 255 must be scaled up to 0 to 1024 with filter
+  controllerData.analogAxisArray[5] = (uint16_t)((1023.0f / 740.0f) * ((float)analogRead(A5) - 140.0f)); // 142 - 878 must be scaled up to 0 to 1024 with filter
+//  controllerData.analogAxisArray[6] = analogRead(A6);  // Reduce number of analog axis to just 6 - we only need six
+//  controllerData.analogAxisArray[7] = analogRead(A7);
+//  controllerData.analogAxisArray[8] = analogRead(A8);
+//  controllerData.analogAxisArray[9] = analogRead(A9);
+//  controllerData.analogAxisArray[10] = analogRead(A10);
+//  controllerData.analogAxisArray[11] = analogRead(A11);
+
+//  Serial.println(controllerData.analogAxisArray[4]);
   
   // And return the data!
   return controllerData;

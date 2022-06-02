@@ -26,8 +26,7 @@ typedef struct {
 
 	uint8_t direction;
 
-	// left and right analog sticks, 0x00 left/up, 0x80 middle, 0xff right/down
-
+	// left and right analog sticks. 10 bits: 0 - 1023 values
 	int16_t axis[ANALOG_AXIS_ARRAY_SIZE];
 
 	// Gonna assume these are button analog values for the d-pad.

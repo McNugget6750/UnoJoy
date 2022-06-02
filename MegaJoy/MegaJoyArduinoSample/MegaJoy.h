@@ -55,8 +55,8 @@
     //  then use the setControllerData function to send that data out.
     //  Don't change this - the order of the fields is important for
     //  the communication between the Arduino and it's communications chip.
-#define BUTTON_ARRAY_SIZE 1 // 8
-#define ANALOG_AXIS_ARRAY_SIZE 6 // 12
+#define BUTTON_ARRAY_SIZE 1 // one byte gives eight buttons
+#define ANALOG_AXIS_ARRAY_SIZE 6 // six analog axis
     
 	typedef struct megaJoyControllerData_t
 	{

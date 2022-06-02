@@ -143,30 +143,34 @@ static const uint8_t PROGMEM gamepad_hid_report_desc[] = {
 	0x19, 0x01,        //   USAGE_MINIMUM (Button 1)
 	0x29, 8 * BUTTON_ARRAY_SIZE,        //   USAGE_MAXIMUM (Button 32)
 	0x81, 0x02,        //   INPUT (Data,Var,Abs)
-	0x05, 0x01,        //   USAGE_PAGE (Generic Desktop)
+	
+	0x05, 0x01,        //   USAGE_PAGE (Generic Desktop) - Direction Pad / HAT
 	0x25, 0x07,        //   LOGICAL_MAXIMUM (7)
 	0x46, 0x3b, 0x01,  //   PHYSICAL_MAXIMUM (315)
-	0x75, 0x04,        //   REPORT_SIZE (4)
-	0x95, 0x01,        //   REPORT_COUNT (1)
+	0x75, 0x04,        //   REPORT_SIZE (4) - four bits of data
+	0x95, 0x01,        //   REPORT_COUNT (1) - one item
 	0x65, 0x14,        //   UNIT (Eng Rot:Angular Pos)
 	0x09, 0x39,        //   USAGE (Hat switch)
 	0x81, 0x42,        //   INPUT (Data,Var,Abs,Null)
+	
 	0x65, 0x00,        //   UNIT (None)
 	0x95, 0x01,        //   REPORT_COUNT (1)
 	0x81, 0x01,        //   INPUT (Cnst,Ary,Abs)
+	
 	0x16, 0x00, 0x00,  //   LOGICAL_MINIMUM 0
-	0x26, 0xff, 0x03,  //   LOGICAL_MAXIMUM (1024)
+	0x26, 0xff, 0x03,  //   LOGICAL_MAXIMUM (1023) - actual range is 10 bit
 	0x36, 0x00, 0x00,  //   PHYSICAL_MINIMUM (0)
-	0x46, 0xff, 0x03,  //   PHYSICAL_MAXIMUM (1024)
+	0x46, 0xff, 0x03,  //   PHYSICAL_MAXIMUM (1023) - actual range is 10 bit
 	0x09, 0x30,        //   USAGE (X)
 	0x09, 0x31,        //   USAGE (Y)
 	0x09, 0x32,        //   USAGE (Z)
 	0x09, 0x33,		   //   USAGE (Rx)
 	0x09, 0x34,		   //   USAGE (Ry)
 	0x09, 0x35,        //   USAGE (Rz)
-	0x75, 0x10,        //   REPORT_SIZE (16)
-	0x95, 0x06,        //   REPORT_COUNT (6)
+	0x75, 0x10,        //   REPORT_SIZE (16) - bit depths that can be reported
+	0x95, ANALOG_AXIS_ARRAY_SIZE,        //   REPORT_COUNT (6) - six analog axis
 	0x81, 0x02,        //   INPUT (Data,Var,Abs)
+	
 	0x06, 0x00, 0xff,  //   USAGE_PAGE (Vendor Specific)
 	0x09, 0x20,        //   Unknown
 	0x09, 0x21,        //   Unknown
@@ -431,6 +435,11 @@ inline void usb_gamepad_1_reset_state(void) {
 //  a return code (zero if no problems, one if problems
 int8_t sendControllerDataViaUSB(dataForMegaController_t btnList, uint8_t playerID){
 	usbControllerState.id = playerID;
+	
+	// 8 bit buttons
+	// 4 bits direction - unused
+	// 32 bits analog pressure d-pad in four bytes - unused
+	// 96 bits analog values in 16 bits per value: 6 joysticks / sliders
 	
 	// Timo: All buttons are organized in complete bytes. Copy the entire thing
 	memcpy(usbControllerState.buttonArray, btnList.buttonArray, BUTTON_ARRAY_SIZE);
