@@ -53,8 +53,8 @@
  **************************************************************************/
 
 // You can change these to give your code its own name.
-#define STR_MANUFACTURER	L"OpenChord X RMIT Exertion Games Lab"
-#define STR_PRODUCT			L"UnoJoy Joystick"
+#define STR_MANUFACTURER	L"MicroForge"
+#define STR_PRODUCT			L"Cessna Flight Controls"
 //#define STR_MANUFACTURER	L"SEGA"
 //#define STR_PRODUCT		L"VIRTUA STICK High Grade"
 

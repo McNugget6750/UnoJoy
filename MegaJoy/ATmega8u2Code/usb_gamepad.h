@@ -2,6 +2,7 @@
 #define usb_gamepad_h__
 
 #include <stdint.h>
+#include <string.h>
 #include <util/delay.h>
 #include "dataForMegaController_t.h"
 

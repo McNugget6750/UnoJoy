@@ -57,6 +57,8 @@
     //  the communication between the Arduino and it's communications chip.
 #define BUTTON_ARRAY_SIZE 1 // one byte gives eight buttons
 #define ANALOG_AXIS_ARRAY_SIZE 6 // six analog axis
+
+  bool transmitRunning = false;
     
 	typedef struct megaJoyControllerData_t
 	{
@@ -107,7 +109,7 @@
     
     
 //----- End of the interface code you should be using -----//
-//----- Below here is the actual implementation of
+//----- Below here is the actual implementation
     
   // This megaJoyControllerData_t is used to store
   //  the controller data that you want to send
@@ -123,9 +125,12 @@
   void setControllerData(megaJoyControllerData_t controllerData){
     // Probably unecessary, but this guarantees that the data
     //  gets copied to our buffer all at once.
+    cli(); // Disable all interrupts
     ATOMIC_BLOCK(ATOMIC_FORCEON){
-      controllerDataBuffer = controllerData;
+      if (transmitRunning == false)
+        controllerDataBuffer = controllerData;
     }
+    sei(); // Reenable all interrupts
   }
   
   // serialCheckInterval governs how many ms between
@@ -136,6 +141,7 @@
   //  If you really need to make it bigger than that, you'll have to
   //  adjust that timeout in the UnoJoy ATmega8u2 firmware code as well.
   volatile int serialCheckInterval = 1;
+  
   // This is an internal counter variable to count ms between
   //  serial check times
   int serialCheckCounter = 0;
@@ -150,7 +156,8 @@
     //  If you want to change the rate, you'll have to change it in the
     //  firmware for the ATmega8u2 as well.  250,000 is actually the best rate,
     //  but it's not supported on Macs, breaking the processing debugger.
-    Serial.begin(38400);
+//    Serial.begin(38400);
+    Serial.begin(250000);
     
     // Now set up the Timer 0 compare register A
     //  so that Timer0 (used for millis() and such)
@@ -175,6 +182,9 @@
   //  and if it's been long enough, polls the serial
   //  port to see if the UnoJoy firmware requested data.
   //  If it did, it transmits the appropriate data back.
+  /*
+   * We have to ensure there are no read while write collisions! This happens when 16 bit 
+   */
   ISR(TIMER0_COMPA_vect){
     serialCheckCounter++;
     if (serialCheckCounter >= serialCheckInterval){
@@ -185,10 +195,17 @@
         //digitalWrite(13, HIGH);
         // Get incoming byte from the ATmega8u2
         byte inByte = Serial.read();
+        
+        if (inByte == 0)
+          transmitRunning = true;
+          
         // That number tells us which byte of the megaJoyControllerData_t struct
         //  to send out.
         Serial.write(((uint8_t*)&controllerDataBuffer)[inByte]); // for 14 bytes do not read more than from index 14
         //digitalWrite(13, LOW);
+
+        if (inByte == 13)
+          transmitRunning = false;
       }
     }
   }

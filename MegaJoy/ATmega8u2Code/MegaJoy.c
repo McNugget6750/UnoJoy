@@ -60,26 +60,26 @@
 
 // This sets up an empty controller data packet and sends it out -- Timo: No it doesn't! It does nothing at all
 //  to all the controllers attached.
-void setControllersToZero(void){
-	dataForMegaController_t emptyData;
-	for (int i = 0; i < BUTTON_ARRAY_SIZE; i++)
-		emptyData.buttonArray[i] = 0x00;
-		
-    emptyData.dpad0LeftOn = 0;
-    emptyData.dpad0UpOn = 0;
-    emptyData.dpad0RightOn = 0;
-    emptyData.dpad0DownOn = 0;
-    
-    emptyData.dpad1LeftOn = 0;
-    emptyData.dpad1UpOn = 0;
-    emptyData.dpad1RightOn = 0;
-    emptyData.dpad1DownOn = 0;
-    
-    //Set the sticks to 512 - centered
-    for (int i = 0; i < ANALOG_AXIS_ARRAY_SIZE; i++){
-	    emptyData.analogAxisArray[i] = 512;
-    }
-}
+//void setControllersToZero(void){
+	//dataForMegaController_t emptyData;
+	//for (int i = 0; i < BUTTON_ARRAY_SIZE; i++)
+		//emptyData.buttonArray[i] = 0x00;
+		//
+    //emptyData.dpad0LeftOn = 0;
+    //emptyData.dpad0UpOn = 0;
+    //emptyData.dpad0RightOn = 0;
+    //emptyData.dpad0DownOn = 0;
+    //
+    //emptyData.dpad1LeftOn = 0;
+    //emptyData.dpad1UpOn = 0;
+    //emptyData.dpad1RightOn = 0;
+    //emptyData.dpad1DownOn = 0;
+    //
+    ////Set the sticks to 512 - centered
+    //for (int i = 0; i < ANALOG_AXIS_ARRAY_SIZE; i++){
+	    //emptyData.analogAxisArray[i] = 512;
+    //}
+//}
 
 // Initializes the USART to receive and transmit,
 //  takes in a value you can find in the datasheet
@@ -121,7 +121,7 @@ void serialWrite( unsigned char data )
 
 void flushSerialRead()
 {
-	unsigned char dummy; // Timo: Used for reading a register. Reading this register resets it
+	unsigned char dummy; // Timo: Used for reading a register. Reading the UDR1 register resets it
 	while ( UCSR1A & (1<<RXC1) )
 		dummy = UDR1;
 }
@@ -160,7 +160,8 @@ int main(void) {
 
 	// Start up the USART for serial communications
 	// 25 corresponds to 38400 baud - see datasheet for more values
-	USART_Init(25);// 103 corresponds to 9600, 8 corresponds to 115200 baud, 3 for 250000
+//	USART_Init(25);// 103 corresponds to 9600, 8 corresponds to 115200 baud, 3 for 250000
+	USART_Init(3);// 103 corresponds to 9600, 8 corresponds to 115200 baud, 3 for 250000
 	
 	// set the prescale for the USB for our 16 MHz clock
 	CPU_PRESCALE(0);
@@ -180,7 +181,7 @@ int main(void) {
 	//  so the serial data you'll be properly aligned.
 	_delay_ms(500);
 	dataForMegaController_t controllerData1;
-	dataForMegaController_t controllerData2;
+	//dataForMegaController_t controllerData2;
 
 	while (1) {
 		// Delay so we're not going too fast
@@ -196,7 +197,7 @@ int main(void) {
 		flushSerialRead();
 		
 		int serialIndex = 0;
-		// The buttons are held in an array, so we need to break it between the two controllers
+		// The buttons are held in an array, so we need to break it up between the two controllers
 		for (int i = 0; i < BUTTON_ARRAY_SIZE; i++){
 			serialWrite(serialIndex);
 			serialIndex++;
@@ -217,10 +218,10 @@ int main(void) {
 		controllerData1.dpad0RightOn = 1 & (directionButtons >> 2);
 		controllerData1.dpad0DownOn = 1 & (directionButtons >> 3);
 		
-		controllerData2.dpad1LeftOn = 1 & (directionButtons >> 4);
-		controllerData2.dpad1UpOn = 1 & (directionButtons >> 5);
-		controllerData2.dpad1RightOn = 1 & (directionButtons >> 6);
-		controllerData2.dpad1DownOn = 1 & (directionButtons >> 7);
+		//controllerData2.dpad1LeftOn = 1 & (directionButtons >> 4);
+		//controllerData2.dpad1UpOn = 1 & (directionButtons >> 5);
+		//controllerData2.dpad1RightOn = 1 & (directionButtons >> 6);
+		//controllerData2.dpad1DownOn = 1 & (directionButtons >> 7);
 		
 		// Assuming that 16 bit data gets sent high byte first
 		controllerData1.analogAxisArray[0] = get16bitValue(serialIndex);
