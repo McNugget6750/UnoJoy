@@ -39,13 +39,13 @@ megaJoyControllerData_t getControllerData(void){
   //  we need to perform a bit shift operation to
   //  lose the 2 least significant bits and get an
   //  8 bit number that we can use 
-  controllerData.analogAxisArray[0] = analogRead(A0);
+  controllerData.analogAxisArray[0] = analogRead(A0); // Throttle
 //  Serial.println(controllerData.analogAxisArray[0]);
-  controllerData.analogAxisArray[1] = analogRead(A1);
+  controllerData.analogAxisArray[1] = analogRead(A1); // Trim
 //  Serial.println(controllerData.analogAxisArray[1]);
-  controllerData.analogAxisArray[2] = analogRead(A2);
+  controllerData.analogAxisArray[2] = analogRead(A2); // Propeller
 //  Serial.println(controllerData.analogAxisArray[2]);
-  controllerData.analogAxisArray[3] = analogRead(A3);
+  controllerData.analogAxisArray[3] = analogRead(A3); // Mixture
 //  Serial.println(controllerData.analogAxisArray[3]);
 
   
@@ -72,6 +72,9 @@ megaJoyControllerData_t getControllerData(void){
   if (tankSelectorScaler < 0) tankSelectorScaler = 0;
   if (tankSelectorScaler > 737) tankSelectorScaler = 737;
   controllerData.analogAxisArray[5] = (uint16_t)((1023.0f / 737.0f) * (float)tankSelectorScaler); // 142 - 878 must be scaled up to 0 to 1024 with filter
+  controllerData.dpad0RightOn = (controllerData.analogAxisArray[5] >= 0 && controllerData.analogAxisArray[5] < 341) ? 1 : 0;
+  controllerData.dpad0UpOn = (controllerData.analogAxisArray[5] >= 341 && controllerData.analogAxisArray[5] < 682) ? 1 : 0;
+  controllerData.dpad0LeftOn = (controllerData.analogAxisArray[5] >= 682 && controllerData.analogAxisArray[5] <= 1023) ? 1 : 0;
 //  Serial.println(controllerData.analogAxisArray[5]);
 //  Serial.println("\r\n");
   
