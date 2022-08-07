@@ -8,6 +8,9 @@
 #define FLAPS_MIN 59
 #define FLAPS_MAX 244
 #define FLAPS_RANGE (FLAPS_MAX - FLAPS_MIN)
+#define FLAPS_HYSTERESIS_WINDOW 200 // once stationary, the value must not have any output noise
+#define FLAPS_STATE_LOCKED 1
+#define FLAPS_STATE_MOVING 0
 
 uint16_t a0_filtered = 0;
 uint16_t a1_filtered = 0;
@@ -15,7 +18,11 @@ uint16_t a2_filtered = 0;
 uint16_t a3_filtered = 0;
 uint16_t a4_filtered = 0;
 uint16_t a4_scaled = 0;
+uint16_t a4_hyst_lock = 0;
+uint16_t a4_trapped = 0;
 uint16_t a5_filtered = 0;
+
+uint8_t flaps_statemachine = FLAPS_STATE_LOCKED;
 
 megaJoyControllerData_t getControllerData(void){
   
@@ -62,9 +69,47 @@ megaJoyControllerData_t getControllerData(void){
   a4_scaled = a4_scaled << 6; // convert 10 bit value into 16 bit value for filtering
   a4_filtered = (uint16_t)(a4_filtered * 0.99f);
   a4_filtered += a4_scaled * 0.01f;
-  controllerData.analogAxisArray[4] = (uint16_t)((a4_filtered >> 6) & 0x03FF);
+//  controllerData.analogAxisArray[4] = (uint16_t)((a4_filtered >> 6) & 0x03FF);
+  a4_hyst_lock = (uint16_t)(a4_hyst_lock * 0.995f);
+  a4_hyst_lock += a4_scaled * 0.005f;
+
+  // Add statement to get out of LOCKED back into MOVING
+  if (a4_filtered > (a4_trapped + FLAPS_HYSTERESIS_WINDOW) || a4_filtered < (a4_trapped - FLAPS_HYSTERESIS_WINDOW))
+    flaps_statemachine = FLAPS_STATE_MOVING;
+    
+  if (flaps_statemachine == FLAPS_STATE_MOVING)
+  {
+    // check if close enough
+    // if close enough, calculate center point for lock
+    // Move to state LOCKED
+    // If not close enough, send filtered value
+    
+    if (a4_filtered < 200)
+    {
+      a4_trapped = 0;
+      flaps_statemachine = FLAPS_STATE_LOCKED;
+    }
+    else if (a4_filtered <= (a4_hyst_lock + FLAPS_HYSTERESIS_WINDOW) || a4_filtered >= (a4_hyst_lock - FLAPS_HYSTERESIS_WINDOW))
+    {
+      a4_trapped = a4_filtered;
+      flaps_statemachine = FLAPS_STATE_LOCKED;
+    }
+    controllerData.analogAxisArray[4] = (uint16_t)((a4_filtered >> 6) & 0x03FF);
+//    Serial.print("M ");
+  }
+  else if (flaps_statemachine == FLAPS_STATE_LOCKED)
+  {
+    // Send only locked state
+    controllerData.analogAxisArray[4] = (uint16_t)((a4_trapped >> 6) & 0x03FF);
+//    Serial.print("L ");
+  }
 
 //  Serial.println(controllerData.analogAxisArray[4]);
+//  Serial.print(a4_filtered);
+//  Serial.print(" ");
+//  Serial.print(a4_hyst_lock);
+//  Serial.print(" ");
+//  Serial.println(a4_trapped);
   
 
   int16_t tankSelectorScaler = analogRead(A5); // 56 - 245 must be scaled up to 0 to 1024 with filter
